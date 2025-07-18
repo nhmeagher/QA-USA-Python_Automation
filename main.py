@@ -1,7 +1,6 @@
 import data
 import helpers
 
-
 class TestUrbanRoutes:
     class TestUrbanRoutes:
         @classmethod
