@@ -40,7 +40,8 @@ class TestUrbanRoutes:
         pass
 
     def test_order_2_ice_creams(self):
-        for i in range(2):  # This loops 2 times
+        number_of_ice_creams = 2
+        for i in range(number_of_ice_creams):  # This loops 2 times
             # Add in S8
             print("function created for test_order_2_ice_creams")
         pass
