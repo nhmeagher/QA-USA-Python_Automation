@@ -16,17 +16,22 @@ time.sleep(2)
 
 
 class UrbanRoutesPage:
-    # Locators
+    # -------------------LOCATORS-------------------
+
+    #Address
     FROM_FIELD = (By.CSS_SELECTOR, "input#from")
     TO_FIELD = (By.CSS_SELECTOR, "input#to")
     CALL_TAXI_BTN = (By.CSS_SELECTOR, "button[data-testid='call_taxi']")
 
+    #Supportive
     SUPPORTIVE_TARIFF_CARD = (By.XPATH, "//div[@class='tcard-title' and normalize-space()='Supportive']")
 
     # Phone
     PHONE_NUMBER_INPUT = (By.CSS_SELECTOR, "input#phone")
+    PHONE_NUMBER_FIELD = (By.ID, 'phone')
     PHONE_MODAL_REQUEST_BTN = (By.XPATH, "(//div[contains(@class,'np-button')][.//div[contains(@class,'np-text') and normalize-space()='Phone number']])[1]")
     PHONE_NEXT_BTN = (By.XPATH, "//button[@type='submit' and normalize-space()='Next']")
+    PAYMENT_METHOD_TEXT = (By.CSS_SELECTOR, "img[alt='card']")
 
     # SMS CODE
     SMS_CODE = (By.CSS_SELECTOR, "input#code.card-input")
@@ -68,12 +73,15 @@ class UrbanRoutesPage:
     def __init__(self, driver):
         self.driver = driver
 
-    # Input Addresses
-    def enter_from_location(self, from_text):
-        self.driver.find_element(*self.FROM_FIELD).send_keys(from_text)
+    # Set Route
+    def set_route(self, address_from, address_to):
+        self.driver.find_element(*self.FROM_FIELD).send_keys(address_from)
+        self.driver.find_element(*self.TO_FIELD).send_keys(address_to)
 
-    def enter_to_location(self, to_text):
-        self.driver.find_element(*self.TO_FIELD).send_keys(to_text)
+    def get_from(self):
+        return self.driver.find_element(*self.FROM_FIELD).get_proprety('value')
+    def get_to(self):
+        return self.driver.find_element(*self.TO_FIELD).get_proprety('value')
 
     # Call taxi
     def call_taxi(self):
@@ -87,6 +95,9 @@ class UrbanRoutesPage:
     def phone_number_modal(self):
         self.driver.find_element(*self.PHONE_MODAL_REQUEST_BTN).click()
         time.sleep(0.5)
+
+    def get_phone_number(self):
+        return self.driver.find_element(*self.PHONE_NUMBER_FIELD).get_proprety('value')
 
     def enter_phone_number(self, phone_number):
         self.driver.find_element(*self.PHONE_NUMBER_INPUT).send_keys(phone_number)
@@ -117,12 +128,16 @@ class UrbanRoutesPage:
         time.sleep(1)
         self.driver.find_element(*self.CLOSE_LINK_CARD).click()
         time.sleep(0.5)
+    def get_payment_method_text(self):
+        return self.driver.find_element(*self.PAYMENT_METHOD_TEXT)
 
     # Comment for driver
-    def set_comment(self, text):
-        el = self.driver.find_element(*self.COMMENT_INPUT)
-        el.clear()
-        el.send_keys(text)
+    def get_comment(self, text):
+        return self.driver.find_element(*self.COMMENT_INPUT).get_proprety('value')
+        time.sleep(0.3)
+
+    def set_comment(self, message):
+        return self.driver.find_element(*self.COMMENT_INPUT).send_keys(message)
         time.sleep(0.3)
 
     # Blanket & Handkerchiefs toggle
